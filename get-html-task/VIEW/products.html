@@ -6,17 +6,46 @@
 
 <body>
 
-    <form>
+    <h1>Add Product</h1>
+
+    <form id="productForm">
         <label for="product">Product Name</label>
 
         <input
             type="text"
             id="product"
             name="productName"
+            required
         >
 
         <button type="submit">Add Product</button>
     </form>
+
+    <p id="message"></p>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        const form = document.getElementById("productForm");
+        const message = document.getElementById("message");
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const productName = document.getElementById("product").value;
+
+            try {
+                const response = await axios.post("/api/products", {
+                    productName: productName
+                });
+
+                message.textContent = response.data;
+            } catch (error) {
+                console.error("Error:", error);
+                message.textContent = "Failed to add product";
+            }
+        });
+    </script>
 
 </body>
 </html>
